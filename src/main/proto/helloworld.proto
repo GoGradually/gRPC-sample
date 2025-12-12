@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "me.example.helloworld"; // 생성되는 Java 클래스들의 package(폴더 경로). Java 코드는 이 패키지의 생성 클래스를 import해서 사용할 수 있다.
+option java_outer_classname = "HelloWorldProto";
+
+package helloworld; // proto 타입/서비스의 논리적 네임스페이스(예: helloworld.Greeter). java_package를 지정했다면 Java 패키지와는 별개.
+
+service Greeter {
+  // Unary RPC
+  rpc SayHello (HelloRequest) returns (HelloReply) {}
+}
+
+message HelloRequest {
+  string name = 1;
+}
+
+message HelloReply {
+  string message = 1;
+}
