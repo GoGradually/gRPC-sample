@@ -1,28 +1,36 @@
 plugins {
     id 'java'
-    id "com.google.protobuf" version "0.9.5"
+    id 'org.springframework.boot' version '4.0.0'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'com.google.protobuf' version '0.9.5'
 }
 
 repositories {
     mavenCentral()
 }
 
+ext {
+    grpcVersion = '1.77.0'
+    protobufVersion = '4.33.1'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.grpc:spring-grpc-dependencies:1.0.0'
+    }
+}
+
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.grpc:spring-grpc-spring-boot-starter'
 
-    implementation(platform("io.grpc:grpc-bom:1.76.2"))
-    runtimeOnly "io.grpc:grpc-netty-shaded"
-    implementation "io.grpc:grpc-protobuf"
-    implementation "io.grpc:grpc-stub"
-
-    implementation "com.google.protobuf:protobuf-java:3.25.8"
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 protobuf {
-    protoc { artifact = "com.google.protobuf:protoc:3.25.8" }
+    protoc { artifact = "com.google.protobuf:protoc:${protobufVersion}" }
     plugins {
-        grpc { artifact = "io.grpc:protoc-gen-grpc-java:1.76.2" }
+        grpc { artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}" }
     }
     generateProtoTasks {
         all().configureEach { task ->
