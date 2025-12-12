@@ -1,9 +1,7 @@
 plugins {
     id 'java'
+    id "com.google.protobuf" version "0.9.5"
 }
-
-group = 'me'
-version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -12,6 +10,25 @@ repositories {
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    implementation(platform("io.grpc:grpc-bom:1.76.2"))
+    runtimeOnly "io.grpc:grpc-netty-shaded"
+    implementation "io.grpc:grpc-protobuf"
+    implementation "io.grpc:grpc-stub"
+
+    implementation "com.google.protobuf:protobuf-java:3.25.8"
+}
+
+protobuf {
+    protoc { artifact = "com.google.protobuf:protoc:3.25.8" }
+    plugins {
+        grpc { artifact = "io.grpc:protoc-gen-grpc-java:1.76.2" }
+    }
+    generateProtoTasks {
+        all().configureEach { task ->
+            task.plugins { grpc {} }
+        }
+    }
 }
 
 test {
