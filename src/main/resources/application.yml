@@ -1,0 +1,13 @@
+spring:
+  grpc:
+    server:
+      port: 9091
+
+grpc:
+  port: 50051
+  client:
+    host: localhost
+    port: 50051
+
+server:
+  port: 8080
